@@ -1,0 +1,22 @@
+DATASET INFORMATION
+
+1. Dataset Shape:
+(Write the output of df.shape)
+
+2. Number of Rows:
+(Write the number of rows)
+
+3. Number of Columns:
+(Write the number of columns)
+
+4. Column Names:
+(Write all column names)
+
+5. Data Types:
+(Write the output of df.dtypes)
+
+6. Missing Values:
+(Write the output of df.isnull().sum())
+
+7. Summary:
+The dataset was successfully loaded using Pandas. The schema was validated by checking data types, missing values, unique values, and sample values. A schema audit table was created and exported as schema_audit.csv.

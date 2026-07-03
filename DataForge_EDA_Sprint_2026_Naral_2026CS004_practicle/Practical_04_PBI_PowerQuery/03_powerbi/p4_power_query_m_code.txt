@@ -1,0 +1,13 @@
+let
+    Source = Csv.Document(File.Contents("D:\DataForge_EDA_Sprint_2026_2026CS004\Practical_04_PBI_PowerQuery\01_data\dataset_raw.csv"),[Delimiter=",", Columns=18, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Row ID", Int64.Type}, {"Order ID", type text}, {"Order Date", type date}, {"Ship Date", type date}, {"Ship Mode", type text}, {"Customer ID", type text}, {"Customer Name", type text}, {"Segment", type text}, {"Country", type text}, {"City", type text}, {"State", type text}, {"Postal Code", Int64.Type}, {"Region", type text}, {"Product ID", type text}, {"Category", type text}, {"Sub-Category", type text}, {"Product Name", type text}, {"Sales", type number}}),
+    #"Promoted Headers1" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers1",{{"1", Int64.Type}, {"CA-2017-152156", type text}, {"08-11-2017", type date}, {"11-11-2017", type date}, {"Second Class", type text}, {"CG-12520", type text}, {"Claire Gute", type text}, {"Consumer", type text}, {"United States", type text}, {"Henderson", type text}, {"Kentucky", type text}, {"42420", Int64.Type}, {"South", type text}, {"FUR-BO-10001798", type text}, {"Furniture", type text}, {"Bookcases", type text}, {"Bush Somerset Collection Bookcase", type text}, {"261.96", type number}}),
+    #"Removed Errors" = Table.RemoveRowsWithErrors(#"Changed Type1", {"1"}),
+    #"Added Conditional Column" = Table.AddColumn(#"Removed Errors", "Sales", each if [261.96] > 3 then "Larger" else "Smaller"),
+    #"Inserted Year" = Table.AddColumn(#"Added Conditional Column", "Year", each Date.Year([#"08-11-2017"]), Int64.Type),
+    #"Split Column by Delimiter" = Table.SplitColumn(#"Inserted Year", "CA-2017-152156", Splitter.SplitTextByDelimiter("-", QuoteStyle.Csv), {"CA-2017-152156.1", "CA-2017-152156.2", "CA-2017-152156.3"}),
+    #"Changed Type2" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"CA-2017-152156.1", type text}, {"CA-2017-152156.2", Int64.Type}, {"CA-2017-152156.3", Int64.Type}})
+in
+    #"Changed Type2"
