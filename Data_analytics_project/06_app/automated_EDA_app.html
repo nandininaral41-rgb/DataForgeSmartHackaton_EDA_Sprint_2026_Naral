@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Auto EDA Tool - DataForge</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        .box {
+            background: white;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>📊 Auto EDA Tool (DataForge Project)</h1>
+
+<input type="file" id="csvFile" accept=".csv">
+
+<div class="box" id="output"></div>
+
+<script>
+document.getElementById("csvFile").addEventListener("change", function(e) {
+    const file = e.target.files[0];
+
+    Papa.parse(file, {
+        header: true,
+        complete: function(results) {
+            const data = results.data;
+
+            let output = "";
+
+            // Dataset info
+            output += "<h2>📌 Dataset Info</h2>";
+            output += "<p>Rows: " + data.length + "</p>";
+            output += "<p>Columns: " + Object.keys(data[0]).length + "</p>";
+
+            // Column names
+            output += "<h2>📌 Columns</h2>";
+            output += "<p>" + Object.keys(data[0]).join(", ") + "</p>";
+
+            // Show first 5 rows
+            output += "<h2>📌 Sample Data</h2>";
+            output += "<table><tr>";
+
+            Object.keys(data[0]).forEach(col => {
+                output += "<th>" + col + "</th>";
+            });
+
+            output += "</tr>";
+
+            for (let i = 0; i < 5; i++) {
+                output += "<tr>";
+                Object.values(data[i]).forEach(val => {
+                    output += "<td>" + val + "</td>";
+                });
+                output += "</tr>";
+            }
+
+            output += "</table>";
+
+            document.getElementById("output").innerHTML = output;
+        }
+    });
+});
+</script>
+
+</body>
+</html>
+

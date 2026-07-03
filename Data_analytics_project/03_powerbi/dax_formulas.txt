@@ -1,0 +1,22 @@
+-- DAX Measures for Practical 5
+
+-- 1. Total Sales
+Total Sales = SUM(Sales[Sales Amount])
+
+-- 2. Total Profit
+Total Profit = SUM(Sales[Profit])
+
+-- 3. Order Count
+Order Count = COUNT(Sales[Order ID])
+
+-- 4. Average Discount
+Average Discount = AVERAGE(Sales[Discount])
+
+-- 5. Profit Margin
+Profit Margin = DIVIDE([Total Profit], [Total Sales], 0)
+
+-- 6. Total Quantity (optional extra KPI)
+Total Quantity = SUM(Sales[Quantity])
+
+-- 7. Average Sales per Order
+Avg Sales per Order = DIVIDE([Total Sales], [Order Count], 0)
